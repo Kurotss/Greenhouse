@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels">
+    <DataTemplate DataType="{x:Type classes:TypesGreenhouseModel}">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Сохранить" FontSize="20" Command="{Binding SaveCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding TypeGreenhouseListVM.ItemVMs}"
+                                  SelectedItem="{Binding TypeGreenhouseListVM.SelectedItem}"
+                                  AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding TypeGreenhouseId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Descr, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="250"/>
+                        <DataGridTextColumn Header="Температура от" Binding="{Binding TemperatureFrom, StringFormat='{}{0:N2}', UpdateSourceTrigger=PropertyChanged}" Width="100" MinWidth="100"/>
+                        <DataGridTextColumn Header="Температура до" Binding="{Binding TemperatureTo, StringFormat='{}{0:N2}', UpdateSourceTrigger=PropertyChanged}" Width="100" MinWidth="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Content="Добавить" FontSize="20" Command="{Binding TypeGreenhouseListVM.AddNewItemCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Content="Удалить" FontSize="20" Command="{Binding TypeGreenhouseListVM.DeleteItemCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

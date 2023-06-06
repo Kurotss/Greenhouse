@@ -1,0 +1,65 @@
+﻿<Window x:Class="Greenhouse.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Greenhouse"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Меню" Height="900" Width="1600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.85*"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Resources/back.jpg" Grid.RowSpan="2"/>
+        <Rectangle Fill="White" Opacity="0.65" Grid.RowSpan="2"/>
+        <Border BorderThickness="0 0 0 4" BorderBrush="#314115">
+            <Rectangle Fill="#7EBF0F" Grid.Row="0"/>
+        </Border>
+        <TextBlock Text="Оранжереи" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50" Foreground="#314115"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">
+            <Border BorderThickness="0 0 0 4" BorderBrush="#314115">
+                <TextBlock Text="Журналы" HorizontalAlignment="Center" FontSize="45" Foreground="#314115"/>
+            </Border>
+            <Grid Height="20"/>
+            <Button Content="Оранжереи" FontSize="30" Click="OpenGreenhouses" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Растения" Click="OpenTypesPlant" FontSize="30" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Grid Height="40"/>
+            <Border BorderThickness="0 0 0 4" BorderBrush="#314115">
+                <TextBlock Text="Справочники" HorizontalAlignment="Center" FontSize="40" Foreground="#314115"/>
+            </Border>
+            <Grid Height="20"/>
+            <Button Content="Группы и виды культур" Click="OpenGroupsAndTypesCulture" FontSize="30" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Виды оранжерей" Click="OpenTypesGreenhouse" FontSize="30"  Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

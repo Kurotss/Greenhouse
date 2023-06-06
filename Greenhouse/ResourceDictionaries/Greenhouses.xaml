@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels">
+
+    <DataTemplate DataType="{x:Type classes:GreenhousesModel}">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ComboBox ItemsSource="{Binding TypeGreenhouseListVM.ItemVMs}" Width="250"
+                          SelectedItem="{Binding TypeGreenhouseListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="TypeGreenhouseId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding GreenhouseListVM.TypeGreenhouseId}"/>
+                <Button Content="Сбросить" FontSize="20" Command="{Binding ResetFiltersCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="btnTypes" Content="Виды оранжерей" FontSize="20" Command="{Binding OpenTypesCommand}" Visibility="Collapsed" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <TextBlock Name="errorMsg" Text="Отсутствуют виды оранжерей, невозможно добавление оранжерей!" FontSize="30" Visibility="Collapsed" VerticalAlignment="Center"/>
+            <Grid Name="mainGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding GreenhouseListVM.ItemVMs}"
+                          SelectedItem="{Binding GreenhouseListVM.SelectedItem}"
+                          IsSynchronizedWithCurrentItem="True"
+                          AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding GreenhouseListVM.OpenCardCommand}"/>
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding GreenhouseId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                        <DataGridTextColumn Header="Вид оранжереи" Binding="{Binding TypeGreenhouseDescr, Mode=OneWay}" Width="250" MinWidth="250"/>
+                        <DataGridTextColumn Header="Высота" Binding="{Binding Height, StringFormat='{}{0:N2}', Mode=OneWay}" Width="100" MinWidth="100"/>
+                        <DataGridTextColumn Header="Влажность воздуха" Binding="{Binding AirHumidity, StringFormat='{}{0:N2}', Mode=OneWay}" Width="150" MinWidth="150"/>
+                        <DataGridTextColumn Header="Примечание" Binding="{Binding Notes, Mode=OneWay}" Width="*" MinWidth="300"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Content="Добавить" FontSize="20" Command="{Binding GreenhouseListVM.AddNewItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Content="Удалить" FontSize="20" Command="{Binding GreenhouseListVM.DeleteItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding CanAddGreenhouses}" Value="False">
+                <Setter TargetName="errorMsg" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="btnTypes" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="mainGrid" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

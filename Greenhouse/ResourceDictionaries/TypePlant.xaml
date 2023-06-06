@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels">
+
+    <DataTemplate DataType="{x:Type classes:TypePlantModel}">
+        <DockPanel >
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Сохранить" FontSize="20" Command="{Binding SaveCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="ID вида растения"/>
+                <TextBox Text="{Binding TypePlantVM.TypePlantId, Mode=OneWay}" IsReadOnly="True" Grid.Column="1"/>
+                <TextBlock Text="Название" Grid.Column="2"/>
+                <TextBox Text="{Binding TypePlantVM.Descr, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3"/>
+                <TextBlock Text="Температура от" Grid.Row="1"/>
+                <TextBox Text="{Binding TypePlantVM.TemperatureFrom, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+                <TextBlock Text="Температура до" Grid.Row="1" Grid.Column="2"/>
+                <TextBox Text="{Binding TypePlantVM.TemperatureTo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="3"/>
+                <TextBlock Text="Высота" Grid.Row="2"/>
+                <TextBox Text="{Binding TypePlantVM.Height, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
+                <TextBlock Text="Площадь" Grid.Row="2" Grid.Column="2"/>
+                <TextBox Text="{Binding TypePlantVM.PlantSquare, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="3"/>
+                <TextBlock Text="Группа культуры" Grid.Row="3"/>
+                <ComboBox ItemsSource="{Binding GroupCultureListVM.ItemVMs}" Grid.Row="3" Grid.Column="1"
+                          SelectedItem="{Binding GroupCultureListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="GroupCultureId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding TypePlantVM.GroupCultureId}"/>
+                <TextBlock Text="Вид культуры" Grid.Row="3" Grid.Column="2"/>
+                <ComboBox ItemsSource="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.ItemVMs}" Grid.Row="3" Grid.Column="3"
+                          SelectedItem="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="TypeCultureId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding TypePlantVM.TypeCultureId}"/>
+                <TextBlock Text="Влажность воздуха от" Grid.Row="4"/>
+                <TextBox Text="{Binding TypePlantVM.AirHumidityFrom, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+                <TextBlock Text="Влажность воздхуха до" Grid.Row="4" Grid.Column="2"/>
+                <TextBox Text="{Binding TypePlantVM.AirHumidityTo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="3"/>
+            </Grid>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,129 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels"
+                    xmlns:greenhousePlace="clr-namespace:Greenhouse.Classes.GreenhousePlace">
+
+    <DataTemplate DataType="{x:Type classes:GreenhouseModel}">
+        <DockPanel Name="root">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Сохранить" FontSize="20" Command="{Binding SaveCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!--Основная информация-->
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="ID оранжереи"/>
+                    <TextBox Text="{Binding GreenhouseVM.GreenhouseId, Mode=OneWay}" IsReadOnly="True" Grid.Column="1"/>
+                    <TextBlock Text="Вид оранжереи" Grid.Column="2"/>
+                    <ComboBox ItemsSource="{Binding TypeGreenhouseListVM.ItemVMs}" Grid.Column="3"
+                          SelectedItem="{Binding TypeGreenhouseListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="TypeGreenhouseId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding GreenhouseVM.TypeGreenhouseId}" Name="cmTypeGreenhouse" IsEnabled="False"/>
+                    <TextBlock Text="Высота" Grid.Row="1"/>
+                    <TextBox Name="tbHeight" Text="{Binding GreenhouseVM.Height, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" IsReadOnly="True"/>
+                    <TextBlock Text="Влажность воздуха" Grid.Row="1" Grid.Column="2"/>
+                    <TextBox Text="{Binding GreenhouseVM.AirHumidity, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="3"/>
+                    <TextBlock Text="Примечание" Grid.Row="2"/>
+                    <TextBox Text="{Binding GreenhouseVM.Notes, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"/>
+                </Grid>
+                <StackPanel Name="txtError" Grid.Row="1" Visibility="Collapsed">
+                    <TextBlock Text="Добавление мест невозможно - необходимо заполнить справочник растений!"/>
+                    <Button Content="Растения" FontSize="20" Command="{Binding OpenTypesCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+                <!--Места оранжереи-->
+                <Expander Name="expanderPlaces" Header="Места" Grid.Row="1" Margin="5" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding GreenhouseVM.GreenhousePlaceListVM.ItemVMs}"
+                                  SelectedItem="{Binding GreenhouseVM.GreenhousePlaceListVM.SelectedItem}"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding PlaceId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                                <DataGridTemplateColumn Header="Вид растения" Width="*" MinWidth="250">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="{x:Type greenhousePlace:GreenhousePlaceVM}">
+                                            <ComboBox ItemsSource="{Binding ElementName=root, Path=DataContext.TypePlantListVM.ItemVMs}"
+                                                SelectedItem="{Binding ElementName=root, Path=DataContext.TypePlantListVM.SelectedItem, Mode=OneWayToSource}"
+                                                SelectedValuePath="TypePlantId" DisplayMemberPath="Descr"
+                                                SelectedValue="{Binding TypePlantId}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Площадь места" Binding="{Binding PlaceSquare, UpdateSourceTrigger=PropertyChanged}" Width="150" MinWidth="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Button Content="Добавить" FontSize="20" Command="{Binding GreenhouseVM.GreenhousePlaceListVM.AddNewItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="Удалить" FontSize="20" Command="{Binding GreenhouseVM.GreenhousePlaceListVM.DeleteItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+            </Grid>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding GreenhouseVM.GreenhouseId}" Value="{x:Null}">
+                <Setter TargetName="cmTypeGreenhouse" Property="IsEnabled" Value="True"/>
+                <Setter TargetName="tbHeight" Property="IsReadOnly" Value="False"/>
+                <Setter TargetName="expanderPlaces" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding CanAddPlants}" Value="False">
+                <Setter TargetName="expanderPlaces" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="txtError" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

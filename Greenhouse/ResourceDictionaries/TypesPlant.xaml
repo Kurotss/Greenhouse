@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels">
+
+    <DataTemplate DataType="{x:Type classes:TypesPlantModel}">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ComboBox ItemsSource="{Binding GroupCultureListVM.ItemVMs}" Width="250"
+                          SelectedItem="{Binding GroupCultureListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="GroupCultureId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding TypePlantListVM.GroupCultureId}"/>
+                <ComboBox ItemsSource="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.ItemVMs}" Width="250"
+                          SelectedItem="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.SelectedItem, Mode=OneWayToSource}"
+                          SelectedValuePath="TypeCultureId" DisplayMemberPath="Descr"
+                          SelectedValue="{Binding TypePlantListVM.TypeCultureId}"/>
+                <Button Content="Сбросить" FontSize="20" Command="{Binding ResetFiltersCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="btnGroupsAndTypes" Content="Группы и виды культур" FontSize="20" Command="{Binding OpenGroupsAndTypeCommand}" Visibility="Collapsed" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <TextBlock Name="errorMsg" Text="Отсутствуют группы или виды культур, невозможно добавление видов растений!" FontSize="30" Visibility="Collapsed" VerticalAlignment="Center"/>
+            <Grid Name="mainGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding TypePlantListVM.ItemVMs}"
+                          SelectedItem="{Binding TypePlantListVM.SelectedItem}"
+                          IsSynchronizedWithCurrentItem="True"
+                          AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding TypePlantListVM.OpenCardCommand}"/>
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding TypePlantId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Descr, Mode=OneWay}" Width="*" MinWidth="250"/>
+                        <DataGridTextColumn Header="Группа культуры" Binding="{Binding GroupCultureDescr, Mode=OneWay}" Width="200" MinWidth="100"/>
+                        <DataGridTextColumn Header="Вид культуры" Binding="{Binding TypeCultureDescr, Mode=OneWay}" Width="200" MinWidth="100"/>
+                        <DataGridTextColumn Header="Площадь" Binding="{Binding PlantSquare, Mode=OneWay}" Width="100" MinWidth="100"/>
+                        <DataGridTextColumn Header="Высота" Binding="{Binding Height, Mode=OneWay}" Width="100" MinWidth="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Content="Добавить" FontSize="20" Command="{Binding TypePlantListVM.AddNewItemCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Content="Удалить" FontSize="20" Command="{Binding TypePlantListVM.DeleteItemCommand}" Background="#7EBF0F"
+                        BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding CanAddPlants}" Value="False">
+                <Setter TargetName="errorMsg" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="btnGroupsAndTypes" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="mainGrid" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

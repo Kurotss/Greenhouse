@@ -1,0 +1,114 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:classes="clr-namespace:Greenhouse.Classes.WindowModels">
+    <DataTemplate DataType="{x:Type classes:GroupsAndTypesCultureModel}">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="Обновить" FontSize="20" Command="{Binding RefreshCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Сохранить" FontSize="20" Command="{Binding SaveCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <!--Группы культур-->
+                <Expander Name="expanderGroups" Header="Группы культур" Grid.Row="0" Margin="5" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding GroupCultureListVM.ItemVMs}"
+                                  SelectedItem="{Binding GroupCultureListVM.SelectedItem}"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding GroupCultureId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Descr, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="250"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Button Content="Добавить" FontSize="20" Command="{Binding GroupCultureListVM.AddNewItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="Удалить" FontSize="20" Command="{Binding GroupCultureListVM.DeleteItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+
+                <!--Виды культур-->
+                <Expander Name="expanderTypes" Header="Виды культур" Grid.Row="1" Margin="5" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.ItemVMs}"
+                                  SelectedItem="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.SelectedItem}"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding TypeCultureId, Mode=OneWay}" Width="50" MinWidth="50"/>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Descr, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="250"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Button Content="Добавить" FontSize="20" Command="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.AddNewItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="Удалить" FontSize="20" Command="{Binding GroupCultureListVM.SelectedItem.TypeCultureListVM.DeleteItemCommand}" Background="#7EBF0F"
+                    BorderBrush="#314115" BorderThickness="2" Margin="5" Foreground="#2e3a23">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+            </Grid>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding GroupCultureListVM.SelectedItem}" Value="{x:Null}">
+                <Setter TargetName="expanderTypes" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GroupCultureListVM.SelectedItem.GroupCultureId}" Value="{x:Null}">
+                <Setter TargetName="expanderTypes" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>
